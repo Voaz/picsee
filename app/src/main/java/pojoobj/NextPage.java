@@ -1,5 +1,5 @@
 
-package com.example.voaz.imgtest;
+package pojoobj;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
