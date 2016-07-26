@@ -1,7 +1,7 @@
 
 package pojoobj;
 
-import com.example.voaz.imgtest.Context;
+import pojoobj.Context;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -1,5 +1,6 @@
 package com.example.voaz.imgtest;
 
+import pojoobj.GoogleData;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

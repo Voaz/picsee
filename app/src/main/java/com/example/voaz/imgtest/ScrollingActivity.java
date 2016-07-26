@@ -2,6 +2,8 @@ package com.example.voaz.imgtest;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,8 +13,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import pojoobj.GoogleData;
+import pojoobj.Item;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +27,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //import android.support.v7.widget.SearchView;
 
 public class ScrollingActivity extends Activity {
-    SearchView search;
+    private SearchView search;
+    private RecyclerView mrecyclerview;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,33 +85,7 @@ public class ScrollingActivity extends Activity {
                         Log.d("MainActivity", t.getMessage());
                     }
                 });
-//                try {
-//                    //URL url = new URL(String.format("https://www.googleapis.com/customsearch/v1?imgSize=medium&searchType=image&fileType=jpg&q=%s&key=%s&cx=%s", query, key, cx));
-//                    URL url = new URL("http://4pda.ru/");
-//                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//                    con.setRequestMethod("GET");
-//                    con.setRequestProperty("User-Agent", "Mozilla/5.0");
 //
-//                    int responseCode = con.getResponseCode(); //вот тут ебошит эксепшн
-//                    System.out.println("\nSending 'GET' request to URL : " + url);
-//                    System.out.println("Response Code : " + responseCode);
-//                    BufferedReader in = new BufferedReader(
-//                            new InputStreamReader(con.getInputStream())); //и тут ебошит эксепшн
-//                    String inputLine;
-//                    StringBuilder response = new StringBuilder();
-//
-//                    while ((inputLine = in.readLine()) != null) {
-//                        response.append(inputLine);
-//                    }
-//                    in.close();
-//
-//                    //print result
-//                    TextView text = (TextView) findViewById(R.id.textView);
-//                    text.setText(response.toString().toCharArray(), 0, response.toString().length());
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-                //search.setVisibility(View.INVISIBLE);
                 return false;
             }
 
@@ -114,24 +97,24 @@ public class ScrollingActivity extends Activity {
                 return false;
             }
         });
-//        setContentView(R.layout.activity_scrolling);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     public void loadPictures(List<Item> pics) {
         ImageView img = (ImageView) findViewById(R.id.imageView);
 
         Picasso.with(this).load(String.valueOf(pics.get(0).getLink())).into(img);
+
+        mrecyclerview = (RecyclerView) findViewById(R.id.recycleView);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mrecyclerview.setLayoutManager(mLayoutManager);
+        ArrayList<String> img_url = null;
+        for (Item pic: pics) {
+            img_url.add(pic.getLink());
+        }
+
+       MyRecyleViewAdapter adapter = new MyRecyleViewAdapter(img_url);
+        mrecyclerview.setAdapter(adapter);
     }
 
     @Override
