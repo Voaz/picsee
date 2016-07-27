@@ -2,7 +2,7 @@ package com.example.voaz.imgtest;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -100,20 +100,21 @@ public class ScrollingActivity extends Activity {
     }
 
     public void loadPictures(List<Item> pics) {
-        ImageView img = (ImageView) findViewById(R.id.imageView);
-
+        ImageView img = (ImageView) findViewById(R.id.imageView2);
         Picasso.with(this).load(String.valueOf(pics.get(0).getLink())).into(img);
 
-        mrecyclerview = (RecyclerView) findViewById(R.id.recycleView);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mrecyclerview.setLayoutManager(mLayoutManager);
-        ArrayList<String> img_url = null;
+        ArrayList<String> img_url = new ArrayList<String>();
         for (Item pic: pics) {
             img_url.add(pic.getLink());
         }
 
-       MyRecyleViewAdapter adapter = new MyRecyleViewAdapter(img_url);
+        MyRecyleViewAdapter adapter = new MyRecyleViewAdapter(this, img_url);
+
+        mrecyclerview = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        mLayoutManager = new GridLayoutManager(this, 2); //LayoutManager(this);
+        mrecyclerview.setLayoutManager(mLayoutManager);
+
         mrecyclerview.setAdapter(adapter);
     }
 
