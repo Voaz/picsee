@@ -1,2 +1,3 @@
 # picsee
-android app to finding images with request string
+android app for searching images with request string
+ by using google api
